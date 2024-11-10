@@ -8,11 +8,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import webapp.app.crudsringbootmain.DAO.PersonDao;
 
+/*
+    Компонент КОНТРОЛЛЕР в котором внедрена зависимость bean PersonDAO
+    Идёт добавление в Model результат методов index | show
+ */
+
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
 
-    private PersonDao personDao;
+    private final PersonDao personDao;                                    // <---- final
 
     @Autowired
     public PeopleController(PersonDao personDao) {
@@ -25,6 +30,7 @@ public class PeopleController {
         return "/first/index";
     }
 
+//    @PathVariable - даёт возможность получить (в данном случае ID) напрямую через URL адрес
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDao.show(id));
