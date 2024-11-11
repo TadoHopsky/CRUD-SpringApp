@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+    <div class="header-class">
+        <h1>All users</h1>
+    </div>
+
 
     <div th:each="person : ${people}">
         <a th:href="@{/people/{id}(id = ${person.getId()})}" th:text="${person.getName()}"></a>
