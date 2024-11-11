@@ -13,6 +13,8 @@ public class Person {
     private String email;
     private String link;
 
+    public Person(){};
+
     public Person(int id, String name, String email, String link) {
         this.id = id;
         this.name = name;

@@ -9,10 +9,14 @@
     <div class="header-class">
         <h1>All users</h1>
     </div>
+    <div class="header-info">
+        <a href="/people/new">Create new User</a>
+    </div>
 
 
     <div th:each="person : ${people}">
         <a th:href="@{/people/{id}(id = ${person.getId()})}" th:text="${person.getName()}"></a>
     </div>
+
 </body>
 </html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>create new user</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="header-class">
+        <h1>Create new Person</h1>
+    </div>
+    <form th:method="post" th:action="@{/people}" th:object="${person}">
+        <label style="color: aliceblue; font-size: 20px; margin: 20px" for="name">Name : </label>
+        <input style="margin-bottom: 15px"type="text" th:field="*{name}" id="name"/>
+        <br>
+
+        <label style="color: aliceblue; font-size: 20px; margin: 20px" for="email">Email : </label>
+        <input style="margin-bottom: 15px"type="text" th:field="*{email}" id="email"/>
+        <br>
+
+        <label style="color: aliceblue; font-size: 20px; margin: 20px" for="name">Link : </label>
+        <input style="margin-bottom: 15px"type="text" th:field="*{link}" id="link"/>
+        <br>
+
+
+        <input type="submit" value="Add person">
+    </form>
+</body>
+</html>

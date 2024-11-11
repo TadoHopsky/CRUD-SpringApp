@@ -29,7 +29,13 @@ public class PersonDao {
         return people;
     }
 
-    public Person show(int id){
+    public Person show(int id) {
         return people.stream().filter(p -> p.getId() == id).findAny().orElse(null);
+    }
+
+    // Метод, который сохраняет Person с заданными данными в List
+    public void create(Person person){
+        person.setId(++PEOPLE_COUNT);
+        people.add(person);
     }
 }
