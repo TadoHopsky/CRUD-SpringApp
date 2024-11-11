@@ -46,7 +46,8 @@ public class PeopleController {
         return "/first/new";
     }
 
-    // При переходе на /people создаётся Person с пустыми значения и помещается в Model
+    // При переходе на /people создаётся Person с пустыми значениями
+    // Пустые значения заполняются информацией из html формы и помещается в Model
     // Вызов метода create() с передачей аргумента person
     @PostMapping()
     public String createNewUser(@ModelAttribute ("person") Person person){
