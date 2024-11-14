@@ -3,8 +3,10 @@ package webapp.app.crudsringbootmain.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +42,20 @@ public class PeopleController {
         return "/first/show";
     }
 
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable("id") int id){
+        model.addAttribute(personDao.show(id));
+        return "/first/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String updatePerson(@ModelAttribute("person") Person person,
+                               @PathVariable("id") int id,
+                               Model model){
+        personDao.update(id, person);
+        return "redirect:/people";
+    }
+
     // При переходе на /people/new создаётся Person с пустыми значениями и кладётся в Model
     @GetMapping("/new")
     public String newUser(@ModelAttribute("person") Person person){
@@ -52,6 +68,12 @@ public class PeopleController {
     @PostMapping()
     public String createNewUser(@ModelAttribute ("person") Person person){
         personDao.create(person);
+        return "redirect:/people";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deletePerson(@PathVariable("id") int id){
+        personDao.delete(id);
         return "redirect:/people";
     }
 }
