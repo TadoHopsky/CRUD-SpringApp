@@ -56,7 +56,7 @@ public class PeopleController {
     public String updatePerson(@ModelAttribute("person") @Valid Person person,
                                BindingResult bindingResult,
                                @PathVariable("id") int id,
-                               Model model){
+                               Model model) throws SQLException {
         if (bindingResult.hasErrors()){
             return "/first/edit";
         }
@@ -84,7 +84,7 @@ public class PeopleController {
     }
 
     @DeleteMapping("/{id}")
-    public String deletePerson(@PathVariable("id") int id){
+    public String deletePerson(@PathVariable("id") int id) throws SQLException {
         personDao.delete(id);
         return "redirect:/people";
     }

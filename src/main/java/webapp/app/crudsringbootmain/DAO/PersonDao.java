@@ -1,6 +1,7 @@
 package webapp.app.crudsringbootmain.DAO;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import webapp.app.crudsringbootmain.user.Person;
 
 import java.sql.Connection;
@@ -18,7 +19,7 @@ import java.util.List;
     Тут же реализованы методы получения информации из БД метод Index() - возвращает список всех людей
     show(id) - возвращает человека по ID
  */
-@Component
+@Service
 public class PersonDao {
     private static int PEOPLE_COUNT;
 
@@ -57,26 +58,25 @@ public class PersonDao {
     }
 
     public Person show(int id) throws SQLException {
-//        String sql = "SELECT name, email, link FROM Person";
-//
-//        Statement statement = connection.createStatement();
-//        ResultSet resultSet = statement.executeQuery(sql);
-//
-//        Person person = new Person();
-//        person.setId(id);
-//        person.setName(resultSet.getString("name"));
-//        person.setEmail(resultSet.getString("email"));
-//        person.setLink(resultSet.getString("link"));
-//
-//        while(resultSet.next()){
-//            if(person.getId() == id){
-//                return person;
-//            }
-//        }
-        return null;
+        Statement statement = connection.createStatement();
+        String sql = "SELECT id, name, email, link FROM Person";
+
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        Person person = new Person();
+
+        while (resultSet.next()) {
+            if (resultSet.getInt("id") == id) {
+                person.setId(resultSet.getInt("id"));
+                person.setName(resultSet.getString("name"));
+                person.setEmail(resultSet.getString("email"));
+                person.setLink(resultSet.getString("link"));
+            }
+        }
+        return person;
     }
 
-    // Метод, который сохраняет Person с заданными данными в List
+    // Метод, который сохраняет Person с заданными данными в PostgreSQL db
     public void create(Person person) throws SQLException {
         Statement statement = connection.createStatement();
         String SQL = "INSERT INTO Person VALUES (" + 1 + ", '" + person.getName() + "', '" +
@@ -85,15 +85,20 @@ public class PersonDao {
         statement.executeUpdate(SQL);
     }
 
-    public void update(int id, Person updatePerson) {
-//        Person personToBeUpdated = show(id);
-//
-//        personToBeUpdated.setName(updatePerson.getName());
-//        personToBeUpdated.setEmail(updatePerson.getEmail());
-//        personToBeUpdated.setLink(updatePerson.getLink());
+    public void update(int id, Person updatePerson) throws SQLException {
+        Person personToBeUpdated = show(id);
+
+        Statement statement = connection.createStatement();
+        String sql = "UPDATE Person SET name='" + updatePerson.getName() + "', email= '" +
+                updatePerson.getEmail() + "', link='" + updatePerson.getLink() + "' WHERE id=" + id;
+
+        statement.executeUpdate(sql);
     }
 
-    public void delete(int id) {
-//        people.removeIf(p -> p.getId() == id);
+    public void delete(int id) throws SQLException {
+        String sql = "DELETE FROM Person WHERE id = " + id;
+
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(sql);
     }
 }
