@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import webapp.app.crudsringbootmain.DAO.PersonDao;
 import webapp.app.crudsringbootmain.user.Person;
 
+import java.sql.SQLException;
+
 /*
     Компонент КОНТРОЛЛЕР в котором внедрена зависимость bean PersonDAO
     Идёт добавление в Model результат методов index | show
@@ -32,20 +34,20 @@ public class PeopleController {
     }
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model) throws SQLException {
         model.addAttribute("people", personDao.index());
         return "/first/index";
     }
 
     // @PathVariable - даёт возможность получить (в данном случае ID) напрямую через URL адрес
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
+    public String show(@PathVariable("id") int id, Model model) throws SQLException {
         model.addAttribute("person", personDao.show(id));
         return "/first/show";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id){
+    public String edit(Model model, @PathVariable("id") int id) throws SQLException {
         model.addAttribute(personDao.show(id));
         return "/first/edit";
     }
@@ -73,7 +75,7 @@ public class PeopleController {
     // Вызов метода create() с передачей аргумента person
     @PostMapping()
     public String createNewUser(@ModelAttribute ("person") @Valid Person person,
-                                BindingResult bindingResult){
+                                BindingResult bindingResult) throws SQLException {
         if (bindingResult.hasErrors()){
             return "/first/new";
         }
