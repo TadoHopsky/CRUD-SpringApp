@@ -15,14 +15,20 @@
     <form th:method="post" th:action="@{/people}" th:object="${person}">
         <label style="color: aliceblue; font-size: 20px; margin: 20px" for="name">Name : </label>
         <input style="margin-bottom: 15px"type="text" th:field="*{name}" id="name"/>
+<!--        Валидация-->
+        <div style="color: crimson" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">error</div>
         <br>
 
         <label style="color: aliceblue; font-size: 20px; margin: 20px" for="email">Email : </label>
         <input style="margin-bottom: 15px"type="text" th:field="*{email}" id="email"/>
+<!--        Валидация-->
+        <div style="color: crimson" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">error</div>
         <br>
 
         <label style="color: aliceblue; font-size: 20px; margin: 20px" for="name">Link : </label>
         <input style="margin-bottom: 15px"type="text" th:field="*{link}" id="link"/>
+<!--        Валидация-->
+        <div style="color: crimson" th:if="${#fields.hasErrors('link')}" th:errors="*{link}">error</div>
         <br>
 
         <input type="submit" value="Add person">

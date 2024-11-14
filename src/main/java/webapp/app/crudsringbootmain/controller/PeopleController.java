@@ -1,8 +1,10 @@
 package webapp.app.crudsringbootmain.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -49,9 +51,13 @@ public class PeopleController {
     }
 
     @PatchMapping("/{id}")
-    public String updatePerson(@ModelAttribute("person") Person person,
+    public String updatePerson(@ModelAttribute("person") @Valid Person person,
+                               BindingResult bindingResult,
                                @PathVariable("id") int id,
                                Model model){
+        if (bindingResult.hasErrors()){
+            return "/first/edit";
+        }
         personDao.update(id, person);
         return "redirect:/people";
     }
@@ -66,7 +72,11 @@ public class PeopleController {
     // Пустые значения заполняются информацией из html формы и помещается в Model
     // Вызов метода create() с передачей аргумента person
     @PostMapping()
-    public String createNewUser(@ModelAttribute ("person") Person person){
+    public String createNewUser(@ModelAttribute ("person") @Valid Person person,
+                                BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "/first/new";
+        }
         personDao.create(person);
         return "redirect:/people";
     }
