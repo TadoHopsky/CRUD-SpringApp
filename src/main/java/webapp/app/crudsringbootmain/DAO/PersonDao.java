@@ -6,6 +6,7 @@ import webapp.app.crudsringbootmain.user.Person;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -39,10 +40,10 @@ public class PersonDao {
 
     public List<Person> index() throws SQLException {
         List<Person> people = new ArrayList<>();
-        String SQL = "SELECT * FROM Person";
 
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(SQL);
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM Person");
+
+        ResultSet resultSet = ps.executeQuery();
 
         while (resultSet.next()) {
             Person p = new Person();
@@ -58,47 +59,53 @@ public class PersonDao {
     }
 
     public Person show(int id) throws SQLException {
-        Statement statement = connection.createStatement();
-        String sql = "SELECT id, name, email, link FROM Person";
 
-        ResultSet resultSet = statement.executeQuery(sql);
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM Person WHERE id=?");
+
+        ps.setInt(1, id);
+        ResultSet resultSet = ps.executeQuery();
 
         Person person = new Person();
 
-        while (resultSet.next()) {
-            if (resultSet.getInt("id") == id) {
-                person.setId(resultSet.getInt("id"));
-                person.setName(resultSet.getString("name"));
-                person.setEmail(resultSet.getString("email"));
-                person.setLink(resultSet.getString("link"));
-            }
-        }
+        resultSet.next();
+
+        person.setId(resultSet.getInt("id"));
+        person.setName(resultSet.getString("name"));
+        person.setEmail(resultSet.getString("email"));
+        person.setLink(resultSet.getString("link"));
+
         return person;
     }
 
     // Метод, который сохраняет Person с заданными данными в PostgreSQL db
     public void create(Person person) throws SQLException {
-        Statement statement = connection.createStatement();
-        String SQL = "INSERT INTO Person VALUES (" + 1 + ", '" + person.getName() + "', '" +
-                person.getEmail() + "', '" + person.getLink() + "')";
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO Person VALUES (1, ?, ?, ?)");
 
-        statement.executeUpdate(SQL);
+        ps.setString(1, person.getName());
+        ps.setString(2, person.getEmail());
+        ps.setString(3, person.getLink());
+
+        ps.executeUpdate();
     }
 
     public void update(int id, Person updatePerson) throws SQLException {
-        Person personToBeUpdated = show(id);
 
-        Statement statement = connection.createStatement();
-        String sql = "UPDATE Person SET name='" + updatePerson.getName() + "', email= '" +
-                updatePerson.getEmail() + "', link='" + updatePerson.getLink() + "' WHERE id=" + id;
+        PreparedStatement ps = connection.prepareStatement(
+                "UPDATE Person SET name=?, email=?, link=? WHERE id=?");
 
-        statement.executeUpdate(sql);
+        ps.setString(1, updatePerson.getName());
+        ps.setString(2, updatePerson.getEmail());
+        ps.setString(3, updatePerson.getLink());
+        ps.setInt(4, id);
+
+        ps.executeUpdate();
     }
 
     public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM Person WHERE id = " + id;
 
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(sql);
+        PreparedStatement ps = connection.prepareStatement("DELETE FROM Person WHERE id=?");
+        ps.setInt(1, id);
+
+        ps.executeUpdate();
     }
 }
