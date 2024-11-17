@@ -35,7 +35,7 @@ public class PersonDao {
 
     // Add new user from DB
     public void create(Person person) {
-        jdbcTemplate.update("INSERT INTO Person VALUES(1, ?, ?, ?)",
+        jdbcTemplate.update("INSERT INTO Person (name, email, link) VALUES(?, ?, ?)",
                 person.getName(), person.getEmail(), person.getLink());
     }
 
@@ -48,6 +48,14 @@ public class PersonDao {
     // Delete user from DB
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM Person where id=?", id);
+    }
+
+    // Delete All users from DB
+    public void deleteAllUsersFromDb(){
+        List<Person> people = jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
+        for(Person person : people){
+            jdbcTemplate.update("DELETE FROM Person where id=?", person.getId());
+        }
     }
 
     /** ================================================================================================ **/

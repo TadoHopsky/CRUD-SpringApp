@@ -6,13 +6,12 @@
     <title>All Users</title>
     <link rel="stylesheet" href="/style.css">
     <style>
-        /* Добавим стили для сетки */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 равные колонки */
-            gap: 15px; /* Расстояние между элементами */
-            max-width: 1200px; /* Ширина контейнера */
-            margin: 0 auto; /* Центрирование */
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .user-item {
             padding: 10px;
@@ -28,6 +27,7 @@
         }
         .user-item a:hover {
             text-decoration: underline;
+            color: #92b9ff;
         }
     </style>
 </head>
@@ -36,12 +36,16 @@
     <h1>All users</h1>
 </div>
 <div class="header-info" style="margin-bottom: 30px">
-    <a href="/people/new">Create new User</a>
+    <a style="background-color: #fafafa;color: #000000; padding: 20px; border-radius: 15px; margin: 40px"
+       href="/people/new">Create new User</a>
+    <a style="background-color: #fafafa;color: #000000; padding: 20px; border-radius: 15px; margin: 40px"
+       href="/batch-page">Generate users to DB</a>
+    <a style="background-color: #fafafa;color: #000000; padding: 20px; border-radius: 15px; margin: 40px"
+       href="/batch-page/delete-all">Delete all users</a>
 </div>
 
-<!-- Контейнер для пользователей -->
 <div class="grid-container">
-    <!-- Отображение каждого пользователя -->
+
     <div class="user-item" th:each="person : ${people}">
         <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName()}"></a>
     </div>

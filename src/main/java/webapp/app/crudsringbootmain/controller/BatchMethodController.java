@@ -23,6 +23,12 @@ public class BatchMethodController {
         return "/batch/index";
     }
 
+    @GetMapping("/delete-all")
+    public String delete(){
+        personDao.deleteAllUsersFromDb();
+        return "redirect:/people";
+    }
+
     @GetMapping("/without")
     public String updateWithout(){
         personDao.testMultiplyUpdate();
