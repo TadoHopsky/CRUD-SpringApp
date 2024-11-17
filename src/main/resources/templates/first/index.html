@@ -2,21 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>index</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Users</title>
     <link rel="stylesheet" href="/style.css">
+    <style>
+        /* Добавим стили для сетки */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 равные колонки */
+            gap: 15px; /* Расстояние между элементами */
+            max-width: 1200px; /* Ширина контейнера */
+            margin: 0 auto; /* Центрирование */
+        }
+        .user-item {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .user-item a {
+            text-decoration: none;
+            color: #000000;
+            font-weight: bold;
+        }
+        .user-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <div class="header-class">
-        <h1>All users</h1>
-    </div>
-    <div class="header-info" style="margin-bottom: 30px">
-        <a href="/people/new">Create new User</a>
-    </div>
+<div class="header-class">
+    <h1>All users</h1>
+</div>
+<div class="header-info" style="margin-bottom: 30px">
+    <a href="/people/new">Create new User</a>
+</div>
 
-
-    <div th:each="person : ${people}">
-        <a th:href="@{/people/{id}(id = ${person.getId()})}" th:text="${person.getName()}"></a>
+<!-- Контейнер для пользователей -->
+<div class="grid-container">
+    <!-- Отображение каждого пользователя -->
+    <div class="user-item" th:each="person : ${people}">
+        <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName()}"></a>
     </div>
-
+</div>
 </body>
 </html>
