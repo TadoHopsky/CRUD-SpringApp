@@ -76,6 +76,12 @@
             <artifactId>postgresql</artifactId>
             <version>42.7.4</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
 
 
     </dependencies>

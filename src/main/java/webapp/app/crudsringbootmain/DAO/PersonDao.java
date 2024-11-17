@@ -1,111 +1,48 @@
 package webapp.app.crudsringbootmain.DAO;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import webapp.app.crudsringbootmain.user.Person;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
-/*
-    Компонент Spring MVC приложения, который отвечает за подключение к БД
-    в данном случае используется ArrayList на замену БД.
-    В дальнейшем подключить БД.
-    Тут же реализованы методы получения информации из БД метод Index() - возвращает список всех людей
-    show(id) - возвращает человека по ID
- */
+
 @Service
 public class PersonDao {
-    private static int PEOPLE_COUNT;
+    private final JdbcTemplate jdbcTemplate;
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/first_db";
-    private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "Fhrfif1488";
-
-    private static Connection connection;
-
-    static {
-        try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    @Autowired
+    public PersonDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Person> index() throws SQLException {
-        List<Person> people = new ArrayList<>();
-
-        PreparedStatement ps = connection.prepareStatement("SELECT * FROM Person");
-
-        ResultSet resultSet = ps.executeQuery();
-
-        while (resultSet.next()) {
-            Person p = new Person();
-
-            p.setId(resultSet.getInt("id"));
-            p.setName(resultSet.getString("name"));
-            p.setEmail(resultSet.getString("email"));
-            p.setLink(resultSet.getString("link"));
-
-            people.add(p);
-        }
-        return people;
+    // Show all users in DB
+    public List<Person> index(){
+        return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
     }
 
-    public Person show(int id) throws SQLException {
-
-        PreparedStatement ps = connection.prepareStatement("SELECT * FROM Person WHERE id=?");
-
-        ps.setInt(1, id);
-        ResultSet resultSet = ps.executeQuery();
-
-        Person person = new Person();
-
-        resultSet.next();
-
-        person.setId(resultSet.getInt("id"));
-        person.setName(resultSet.getString("name"));
-        person.setEmail(resultSet.getString("email"));
-        person.setLink(resultSet.getString("link"));
-
-        return person;
+    // Show one user from DB found by ID
+    public Person show(int id){
+        return jdbcTemplate.query("SELECT * FROM Person where id=?", new Object[]{id},
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
     }
 
-    // Метод, который сохраняет Person с заданными данными в PostgreSQL db
-    public void create(Person person) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO Person VALUES (1, ?, ?, ?)");
-
-        ps.setString(1, person.getName());
-        ps.setString(2, person.getEmail());
-        ps.setString(3, person.getLink());
-
-        ps.executeUpdate();
+    // Add new user from DB
+    public void create(Person person){
+        jdbcTemplate.update("INSERT INTO Person VALUES(1, ?, ?, ?)",
+                person.getName(), person.getEmail(), person.getLink());
     }
 
-    public void update(int id, Person updatePerson) throws SQLException {
-
-        PreparedStatement ps = connection.prepareStatement(
-                "UPDATE Person SET name=?, email=?, link=? WHERE id=?");
-
-        ps.setString(1, updatePerson.getName());
-        ps.setString(2, updatePerson.getEmail());
-        ps.setString(3, updatePerson.getLink());
-        ps.setInt(4, id);
-
-        ps.executeUpdate();
+    // Update User information
+    public void update(int id, Person updatePerson){
+        jdbcTemplate.update("UPDATE Person SET name=?, email=?, link=? WHERE id=?",
+                updatePerson.getName(), updatePerson.getEmail(), updatePerson.getLink(), id);
     }
 
-    public void delete(int id) throws SQLException {
-
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM Person WHERE id=?");
-        ps.setInt(1, id);
-
-        ps.executeUpdate();
+    // Delete user from DB
+    public void delete(int id){
+        jdbcTemplate.update("DELETE FROM Person where id=?", id);
     }
 }
