@@ -25,5 +25,4 @@ public class Person {
     @NotEmpty(message = "Not be empty.")
     @Size(min = 2, max = 20, message = "Should be 2-20 chars.")
     private String link;
-
 }

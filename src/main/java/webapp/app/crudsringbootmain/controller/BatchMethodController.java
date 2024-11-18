@@ -5,17 +5,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import webapp.app.crudsringbootmain.DAO.BatchUpdateTest;
 import webapp.app.crudsringbootmain.DAO.PersonDao;
 
 @Controller
 @RequestMapping("/batch-page")
 public class BatchMethodController {
 
-    private PersonDao personDao;
+    private final PersonDao personDao;
+    private final BatchUpdateTest batchUpdateTest;
 
     @Autowired
-    public BatchMethodController(PersonDao personDao) {
+    public BatchMethodController(PersonDao personDao, BatchUpdateTest batchUpdateTest) {
         this.personDao = personDao;
+        this.batchUpdateTest = batchUpdateTest;
     }
 
     @GetMapping()
@@ -31,13 +34,13 @@ public class BatchMethodController {
 
     @GetMapping("/without")
     public String updateWithout() {
-        personDao.testMultiplyUpdate();
+        batchUpdateTest.testMultiplyUpdate();
         return "redirect:/people";
     }
 
     @GetMapping("/with")
     public String updateWith() {
-        personDao.testBatchUpdate();
+        batchUpdateTest.testBatchUpdate();
         return "redirect:/people";
     }
 }

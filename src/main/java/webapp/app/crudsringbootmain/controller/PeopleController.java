@@ -27,20 +27,20 @@ public class PeopleController {
     }
 
     @GetMapping
-    public String index(Model model){
+    public String index(Model model) {
         model.addAttribute("people", personDao.index());
         return "/first/index";
     }
 
     // @PathVariable - даёт возможность получить (в данном случае ID) напрямую через URL адрес
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model){
+    public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDao.show(id));
         return "/first/show";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id){
+    public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute(personDao.show(id));
         return "/first/edit";
     }
@@ -48,7 +48,7 @@ public class PeopleController {
     @PatchMapping("/{id}")
     public String updatePerson(@ModelAttribute("person") @Valid Person person,
                                BindingResult bindingResult,
-                               @PathVariable("id") int id){
+                               @PathVariable("id") int id) {
         if (bindingResult.hasErrors()) {
             return "/first/edit";
         }
@@ -67,7 +67,7 @@ public class PeopleController {
     // Вызов метода create() с передачей аргумента person
     @PostMapping()
     public String createNewUser(@ModelAttribute("person") @Valid Person person,
-                                BindingResult bindingResult){
+                                BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/first/new";
         }
@@ -76,7 +76,7 @@ public class PeopleController {
     }
 
     @DeleteMapping("/{id}")
-    public String deletePerson(@PathVariable("id") int id){
+    public String deletePerson(@PathVariable("id") int id) {
         personDao.delete(id);
         return "redirect:/people";
     }
