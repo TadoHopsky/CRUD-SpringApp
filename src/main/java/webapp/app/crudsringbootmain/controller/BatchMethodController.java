@@ -19,24 +19,24 @@ public class BatchMethodController {
     }
 
     @GetMapping()
-    public String index(){
+    public String index() {
         return "/batch/index";
     }
 
     @GetMapping("/delete-all")
-    public String delete(){
+    public String delete() {
         personDao.deleteAllUsersFromDb();
         return "redirect:/people";
     }
 
     @GetMapping("/without")
-    public String updateWithout(){
+    public String updateWithout() {
         personDao.testMultiplyUpdate();
         return "redirect:/people";
     }
 
     @GetMapping("/with")
-    public String updateWith(){
+    public String updateWith() {
         personDao.testBatchUpdate();
         return "redirect:/people";
     }

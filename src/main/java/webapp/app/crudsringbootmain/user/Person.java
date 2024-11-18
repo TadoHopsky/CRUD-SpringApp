@@ -3,13 +3,13 @@ package webapp.app.crudsringbootmain.user;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/*
-    Класс, который содержит информацию о пользователе.
-    Не является Bean, не внедряется в качестве Component в Spring Context
- */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Person {
 
     private int id;
@@ -26,12 +26,4 @@ public class Person {
     @Size(min = 2, max = 20, message = "Should be 2-20 chars.")
     private String link;
 
-    public Person(){}
-
-    public Person(int id, String name, String email, String link) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.link = link;
-    }
 }

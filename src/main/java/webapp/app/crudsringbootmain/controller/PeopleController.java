@@ -12,42 +12,35 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import webapp.app.crudsringbootmain.DAO.PersonDao;
 import webapp.app.crudsringbootmain.user.Person;
-
-import java.sql.SQLException;
-
-/*
-    Компонент КОНТРОЛЛЕР в котором внедрена зависимость bean PersonDAO
-    Идёт добавление в Model результат методов index | show
- */
 
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
 
-    private final PersonDao personDao;                                    // <---- final
+    private final PersonDao personDao;
 
+    @Autowired
     public PeopleController(PersonDao personDao) {
         this.personDao = personDao;
     }
 
     @GetMapping
-    public String index(Model model) throws SQLException {
+    public String index(Model model){
         model.addAttribute("people", personDao.index());
         return "/first/index";
     }
 
     // @PathVariable - даёт возможность получить (в данном случае ID) напрямую через URL адрес
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) throws SQLException {
+    public String show(@PathVariable("id") int id, Model model){
         model.addAttribute("person", personDao.show(id));
         return "/first/show";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) throws SQLException {
+    public String edit(Model model, @PathVariable("id") int id){
         model.addAttribute(personDao.show(id));
         return "/first/edit";
     }
@@ -55,9 +48,8 @@ public class PeopleController {
     @PatchMapping("/{id}")
     public String updatePerson(@ModelAttribute("person") @Valid Person person,
                                BindingResult bindingResult,
-                               @PathVariable("id") int id,
-                               Model model) throws SQLException {
-        if (bindingResult.hasErrors()){
+                               @PathVariable("id") int id){
+        if (bindingResult.hasErrors()) {
             return "/first/edit";
         }
         personDao.update(id, person);
@@ -66,7 +58,7 @@ public class PeopleController {
 
     // При переходе на /people/new создаётся Person с пустыми значениями и кладётся в Model
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("person") Person person){
+    public String newUser(@ModelAttribute("person") Person person) {
         return "/first/new";
     }
 
@@ -74,9 +66,9 @@ public class PeopleController {
     // Пустые значения заполняются информацией из html формы и помещается в Model
     // Вызов метода create() с передачей аргумента person
     @PostMapping()
-    public String createNewUser(@ModelAttribute ("person") @Valid Person person,
-                                BindingResult bindingResult) throws SQLException {
-        if (bindingResult.hasErrors()){
+    public String createNewUser(@ModelAttribute("person") @Valid Person person,
+                                BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
             return "/first/new";
         }
         personDao.create(person);
@@ -84,7 +76,7 @@ public class PeopleController {
     }
 
     @DeleteMapping("/{id}")
-    public String deletePerson(@PathVariable("id") int id) throws SQLException {
+    public String deletePerson(@PathVariable("id") int id){
         personDao.delete(id);
         return "redirect:/people";
     }
