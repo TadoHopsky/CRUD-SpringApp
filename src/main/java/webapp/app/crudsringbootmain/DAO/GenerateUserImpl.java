@@ -8,7 +8,8 @@ import java.util.Map;
 import java.util.Random;
 
 @Service
-public class GenerateUserService implements GeneratorUserInterface {
+public class GenerateUserImpl implements GeneratorUser {
+
     public Map<Integer, String> generateUsername() {
         Map<Integer, String> fullInfoMap = new HashMap<>();
 

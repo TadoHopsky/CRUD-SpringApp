@@ -1,6 +1,7 @@
 package webapp.app.crudsringbootmain.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,14 +18,10 @@ import webapp.app.crudsringbootmain.user.Person;
 
 @Controller
 @RequestMapping("/people")
+@RequiredArgsConstructor
 public class PeopleController {
 
     private final PersonDao personDao;
-
-    @Autowired
-    public PeopleController(PersonDao personDao) {
-        this.personDao = personDao;
-    }
 
     @GetMapping
     public String index(Model model) {

@@ -1,6 +1,6 @@
 package webapp.app.crudsringbootmain.DAO;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -12,16 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BatchUpdateTest implements BatchUpdateInterface {
+@RequiredArgsConstructor
+public class BatchUpdateImpl implements BatchUpdate {
 
     private final JdbcTemplate jdbcTemplate;
-    private final GenerateUserService generateUserService;
-
-    @Autowired
-    public BatchUpdateTest(JdbcTemplate jdbcTemplate, GenerateUserService generateUserService) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.generateUserService = generateUserService;
-    }
+    private final GeneratorUser generateUser;  // <---- Интерфейс
 
     public void testMultiplyUpdate() { // ----------------------------------------------------->  Time : 213
         List<Person> people = create1000Users();
@@ -34,7 +29,6 @@ public class BatchUpdateTest implements BatchUpdateInterface {
         }
 
         long after = System.currentTimeMillis();
-
         System.out.println("Time : " + (after - before) + "mc");
     }
 
@@ -65,13 +59,19 @@ public class BatchUpdateTest implements BatchUpdateInterface {
         System.out.println("Time : " + (after - before) + "mc");
     }
 
-    // Создание списка из 1000 людей
+    // Создание списка из 30 людей
     public List<Person> create1000Users() {
         List<Person> people = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            String fullName = generateUserService.getOneRandomUsername();
-            people.add(new Person(i, fullName, fullName.replace(" ", "") + "@mail.ru",
-                    "@" + fullName.replace(" ", "")));
+            String fullName = generateUser.getOneRandomUsername();
+            Person person = new Person();
+
+            person.setId(i);
+            person.setName(fullName);
+            person.setEmail(fullName.replace(" ", "") + "@mail.ru");
+            person.setLink("@" + fullName.replace(" ", ""));
+
+            people.add(person);
         }
         return people;
     }

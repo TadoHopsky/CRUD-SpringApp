@@ -1,25 +1,19 @@
 package webapp.app.crudsringbootmain.controller;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import webapp.app.crudsringbootmain.DAO.BatchUpdateTest;
+import webapp.app.crudsringbootmain.DAO.BatchUpdate;
 import webapp.app.crudsringbootmain.DAO.PersonDao;
 
 @Controller
 @RequestMapping("/batch-page")
+@RequiredArgsConstructor
 public class BatchMethodController {
 
     private final PersonDao personDao;
-    private final BatchUpdateTest batchUpdateTest;
-
-    @Autowired
-    public BatchMethodController(PersonDao personDao, BatchUpdateTest batchUpdateTest) {
-        this.personDao = personDao;
-        this.batchUpdateTest = batchUpdateTest;
-    }
+    private final BatchUpdate batchUpdate;
 
     @GetMapping()
     public String index() {
@@ -34,13 +28,13 @@ public class BatchMethodController {
 
     @GetMapping("/without")
     public String updateWithout() {
-        batchUpdateTest.testMultiplyUpdate();
+        batchUpdate.testMultiplyUpdate();
         return "redirect:/people";
     }
 
     @GetMapping("/with")
     public String updateWith() {
-        batchUpdateTest.testBatchUpdate();
+        batchUpdate.testBatchUpdate();
         return "redirect:/people";
     }
 }

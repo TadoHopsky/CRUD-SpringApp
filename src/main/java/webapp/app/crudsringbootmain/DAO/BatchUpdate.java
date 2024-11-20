@@ -4,7 +4,7 @@ import webapp.app.crudsringbootmain.user.Person;
 
 import java.util.List;
 
-public interface BatchUpdateInterface {
+public interface BatchUpdate {
     void testMultiplyUpdate();
 
     void testBatchUpdate();

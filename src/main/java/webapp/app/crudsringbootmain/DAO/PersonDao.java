@@ -1,6 +1,6 @@
 package webapp.app.crudsringbootmain.DAO;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -10,14 +10,9 @@ import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class PersonDao {
     private final JdbcTemplate jdbcTemplate;
-
-
-    @Autowired
-    public PersonDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     // Show all users in DB
     public List<Person> index() {
