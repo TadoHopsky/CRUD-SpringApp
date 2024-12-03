@@ -34,22 +34,28 @@ public class PersonDao {
 
     // Add new user from DB
     public void create(Person person) {
-        List<Person> people;
-        people = jdbcTemplate.query("SELECT id FROM Person", new BeanPropertyRowMapper<>(Person.class));
-        int lastID = 0;
-        for(Person p : people){
-            if(p.getId()>lastID){
-                lastID = p.getId();
-            }
-        }
-        jdbcTemplate.update("INSERT INTO Person (id, name, email, link) VALUES(?, ?, ?, ?)",
-                lastID + 1, person.getName(), person.getEmail(), person.getLink());
+//        List<Person> people;
+//        people = jdbcTemplate.query("SELECT id FROM Person", new BeanPropertyRowMapper<>(Person.class));
+//        int lastID = 0;
+//        for(Person p : people){
+//            if(p.getId()>lastID){
+//                lastID = p.getId();
+//            }
+//        }
+        jdbcTemplate.update("INSERT INTO Person (name, email, link, address) VALUES(?, ?, ?, ?)",
+                person.getName(),
+                person.getEmail(),
+                person.getLink(),
+                person.getAddress());
     }
 
     // Update User information
     public void update(int id, Person updatePerson) {
-        jdbcTemplate.update("UPDATE Person SET name=?, email=?, link=? WHERE id=?",
-                updatePerson.getName(), updatePerson.getEmail(), updatePerson.getLink(), id);
+        jdbcTemplate.update("UPDATE Person SET name=?, email=?, link=?, address=? WHERE id=?",
+                updatePerson.getName(),
+                updatePerson.getEmail(),
+                updatePerson.getLink(),
+                updatePerson.getAddress(), id);
     }
 
     // Delete user from DB

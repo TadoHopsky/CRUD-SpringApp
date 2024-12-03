@@ -18,6 +18,7 @@
     <p>Name : <span th:text="${person.getName()}"></span></p>
     <p>Email : <span th:text="${person.getEmail()}"></span></p>
     <p>@Link : <span th:text="${person.getLink()}"></span></p>
+    <p>Address : <span th:text="${person.getAddress()}"></span></p>
 
     <form th:method="DELETE" th:action="@{/people/{id} (id = ${person.getId()})}" th:object="${person}">
         <input type="submit" value="Delete user">

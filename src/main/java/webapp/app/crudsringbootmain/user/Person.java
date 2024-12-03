@@ -2,6 +2,7 @@ package webapp.app.crudsringbootmain.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,4 +28,10 @@ public class Person {
     @NotEmpty(message = "Not be empty.")
     @Size(min = 2, max = 20, message = "Should be 2-20 chars.")
     private String link;
+
+    // Страна, Город, Индекс (6 символов)
+    @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+, \\d{6}",
+            message = "Invalid address format. Should be Country, City, 123123")
+    @NotEmpty(message = "Not be empty.")
+    private String address;
 }

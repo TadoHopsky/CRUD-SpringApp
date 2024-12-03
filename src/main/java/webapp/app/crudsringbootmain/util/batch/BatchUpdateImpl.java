@@ -24,8 +24,8 @@ public class BatchUpdateImpl implements BatchUpdate {
         long before = System.currentTimeMillis();
 
         for (Person person : people) {
-            jdbcTemplate.update("INSERT INTO Person VALUES(?, ?, ?, ?)",
-                    person.getId(), person.getName(), person.getEmail(), person.getLink());
+            jdbcTemplate.update("INSERT INTO Person VALUES(?, ?, ?, ?, ?)",
+                    person.getId(), person.getName(), person.getEmail(), person.getLink(), person.getAddress());
         }
 
         long after = System.currentTimeMillis();
@@ -37,7 +37,7 @@ public class BatchUpdateImpl implements BatchUpdate {
 
         long before = System.currentTimeMillis();
 
-        jdbcTemplate.batchUpdate("INSERT INTO Person VALUES(?, ?, ?, ?)",
+        jdbcTemplate.batchUpdate("INSERT INTO Person VALUES(?, ?, ?, ?, ?)",
                 new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -45,6 +45,7 @@ public class BatchUpdateImpl implements BatchUpdate {
                         ps.setString(2, people.get(i).getName());
                         ps.setString(3, people.get(i).getEmail());
                         ps.setString(4, people.get(i).getLink());
+                        ps.setString(5, people.get(i).getAddress());
                     }
 
                     @Override
@@ -66,8 +67,9 @@ public class BatchUpdateImpl implements BatchUpdate {
             var person = Person.builder()
                     .id(i)
                     .name(fullName)
-                    .email(fullName.replace(" ", "") + "@mail.ru")
-                    .link("@" + fullName.replace(" ", ""))
+                    .email(fullName.toLowerCase().replace(" ", "") + "@mail.ru")
+                    .link("@" + fullName.toLowerCase().replace(" ", ""))
+                    .address("City, Country, 123123")
                     .build();
 
             people.add(person);

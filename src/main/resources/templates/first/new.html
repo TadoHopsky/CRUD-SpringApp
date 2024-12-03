@@ -31,6 +31,12 @@
         <div style="color: crimson" th:if="${#fields.hasErrors('link')}" th:errors="*{link}">error</div>
         <br>
 
+        <label style="color: aliceblue; font-size: 20px; margin: 20px" for="name">Address : </label>
+        <input style="margin-bottom: 15px"type="text" th:field="*{address}" id="address"/>
+        <!--        Валидация-->
+        <div style="color: crimson" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">error</div>
+        <br>
+
         <input type="submit" value="Add person">
     </form>
 </body>
