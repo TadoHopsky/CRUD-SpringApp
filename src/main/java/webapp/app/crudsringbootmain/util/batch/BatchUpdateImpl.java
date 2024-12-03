@@ -1,4 +1,4 @@
-package webapp.app.crudsringbootmain.util;
+package webapp.app.crudsringbootmain.util.batch;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;

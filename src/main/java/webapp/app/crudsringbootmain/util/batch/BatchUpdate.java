@@ -1,4 +1,4 @@
-package webapp.app.crudsringbootmain.util;
+package webapp.app.crudsringbootmain.util.batch;
 
 import webapp.app.crudsringbootmain.user.Person;
 

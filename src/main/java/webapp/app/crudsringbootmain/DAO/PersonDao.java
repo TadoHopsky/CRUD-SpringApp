@@ -8,6 +8,7 @@ import webapp.app.crudsringbootmain.user.Person;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -24,6 +25,11 @@ public class PersonDao {
     public Person show(int id) {
         return jdbcTemplate.query("SELECT * FROM Person where id=?", new Object[]{id},
                 new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
+    }
+
+    public Optional<Person> show(String email){
+        return jdbcTemplate.query("SELECT * FROM Person where email=?", new Object[]{email},
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 
     // Add new user from DB

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import webapp.app.crudsringbootmain.DAO.PersonDao;
 import webapp.app.crudsringbootmain.user.Person;
+import webapp.app.crudsringbootmain.util.PersonValidator;
 
 @Controller
 @RequestMapping("/people")
@@ -22,6 +23,7 @@ import webapp.app.crudsringbootmain.user.Person;
 public class PeopleController {
 
     private final PersonDao personDao;
+    private final PersonValidator personValidator;
 
     @GetMapping
     public String index(Model model) {
@@ -65,6 +67,8 @@ public class PeopleController {
     @PostMapping()
     public String createNewUser(@ModelAttribute("person") @Valid Person person,
                                 BindingResult bindingResult) {
+        personValidator.validate(person, bindingResult);
+
         if (bindingResult.hasErrors()) {
             return "/first/new";
         }
