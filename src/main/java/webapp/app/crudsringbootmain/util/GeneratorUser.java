@@ -1,4 +1,4 @@
-package webapp.app.crudsringbootmain.DAO;
+package webapp.app.crudsringbootmain.util;
 
 import java.util.Map;
 

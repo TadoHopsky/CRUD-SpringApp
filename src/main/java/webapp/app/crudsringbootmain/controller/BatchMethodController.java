@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import webapp.app.crudsringbootmain.DAO.BatchUpdate;
+import webapp.app.crudsringbootmain.util.BatchUpdate;
 import webapp.app.crudsringbootmain.DAO.PersonDao;
 
 @Controller

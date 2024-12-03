@@ -1,4 +1,4 @@
-package webapp.app.crudsringbootmain.DAO;
+package webapp.app.crudsringbootmain.util;
 
 import webapp.app.crudsringbootmain.user.Person;
 
@@ -9,5 +9,5 @@ public interface BatchUpdate {
 
     void testBatchUpdate();
 
-    List<Person> create1000Users();
+    List<Person> create30Users();
 }

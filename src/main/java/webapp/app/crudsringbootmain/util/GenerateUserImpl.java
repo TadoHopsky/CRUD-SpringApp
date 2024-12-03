@@ -1,4 +1,4 @@
-package webapp.app.crudsringbootmain.DAO;
+package webapp.app.crudsringbootmain.util;
 
 import org.springframework.stereotype.Service;
 
@@ -11,13 +11,13 @@ import java.util.Random;
 public class GenerateUserImpl implements GeneratorUser {
 
     public Map<Integer, String> generateUsername() {
-        Map<Integer, String> fullInfoMap = new HashMap<>();
+        var fullInfoMap = new HashMap<Integer, String>();
 
-        String name = "Алексей, Мария, Иван, Ольга, Дмитрий, Анна, Сергей, Екатерина, Владимир, Наталья, Артем," +
+        var name = "Алексей, Мария, Иван, Ольга, Дмитрий, Анна, Сергей, Екатерина, Владимир, Наталья, Артем," +
                 " Елена, Михаил, Татьяна, Андрей, Юлия, Роман, Виктория, Павел, Анастасия, Константин, Ирина," +
                 " Александр, Валерия, Евгений, София, Василий, Ксения, Николай, Вероника";
 
-        String surname = "Иванов, Петров, Сидоров, Смирнов, Кузнецов, Попов, Васильев, Новиков, Федоров, Морозов," +
+        var surname = "Иванов, Петров, Сидоров, Смирнов, Кузнецов, Попов, Васильев, Новиков, Федоров, Морозов," +
                 " Волков, Алексеев, Лебедев, Семенов, Егоров, Павлов, Козлов, Степанов, Николаев, Орлов, Макаров," +
                 " Захаров, Кравцов, Беляев, Гусев, Андреев, Данилов, Сергиев, Тимофеев, Филиппов";
 
@@ -27,10 +27,10 @@ public class GenerateUserImpl implements GeneratorUser {
         Random random = new Random();
 
         for (int i = 0; i < 1000; i++) {
-            String randomName = names[random.nextInt(names.length)];
-            String randomSurname = surnames[random.nextInt(names.length)];
+            var randomName = names[random.nextInt(names.length)];
+            var randomSurname = surnames[random.nextInt(names.length)];
 
-            String fullName = randomName + " " + randomSurname;
+            var fullName = randomName + " " + randomSurname;
 
             fullInfoMap.put(i, fullName);
         }
@@ -38,7 +38,7 @@ public class GenerateUserImpl implements GeneratorUser {
     }
 
     public String getOneRandomUsername() {
-        Map<Integer, String> map = generateUsername();
+        var map = generateUsername();
 
         SecureRandom secureRandom = new SecureRandom();
         int randomNumber = secureRandom.nextInt(map.size());

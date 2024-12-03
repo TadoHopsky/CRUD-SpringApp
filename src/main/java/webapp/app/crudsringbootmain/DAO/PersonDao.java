@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import webapp.app.crudsringbootmain.user.Person;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,8 +28,16 @@ public class PersonDao {
 
     // Add new user from DB
     public void create(Person person) {
-        jdbcTemplate.update("INSERT INTO Person (name, email, link) VALUES(?, ?, ?)",
-                person.getName(), person.getEmail(), person.getLink());
+        List<Person> people;
+        people = jdbcTemplate.query("SELECT id FROM Person", new BeanPropertyRowMapper<>(Person.class));
+        int lastID = 0;
+        for(Person p : people){
+            if(p.getId()>lastID){
+                lastID = p.getId();
+            }
+        }
+        jdbcTemplate.update("INSERT INTO Person (id, name, email, link) VALUES(?, ?, ?, ?)",
+                lastID + 1, person.getName(), person.getEmail(), person.getLink());
     }
 
     // Update User information

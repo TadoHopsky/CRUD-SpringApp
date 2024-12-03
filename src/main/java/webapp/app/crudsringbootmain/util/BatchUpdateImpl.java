@@ -1,4 +1,4 @@
-package webapp.app.crudsringbootmain.DAO;
+package webapp.app.crudsringbootmain.util;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -19,7 +19,7 @@ public class BatchUpdateImpl implements BatchUpdate {
     private final GeneratorUser generateUser;  // <---- Интерфейс
 
     public void testMultiplyUpdate() { // ----------------------------------------------------->  Time : 213
-        List<Person> people = create1000Users();
+        List<Person> people = create30Users();
 
         long before = System.currentTimeMillis();
 
@@ -33,7 +33,7 @@ public class BatchUpdateImpl implements BatchUpdate {
     }
 
     public void testBatchUpdate() { // -------------------------------------------------------->  Time : 44
-        List<Person> people = create1000Users();
+        List<Person> people = create30Users();
 
         long before = System.currentTimeMillis();
 
@@ -53,23 +53,22 @@ public class BatchUpdateImpl implements BatchUpdate {
                     }
                 });
 
-
         long after = System.currentTimeMillis();
 
         System.out.println("Time : " + (after - before) + "mc");
     }
 
     // Создание списка из 30 людей
-    public List<Person> create1000Users() {
-        List<Person> people = new ArrayList<>();
+    public List<Person> create30Users() {
+        var people = new ArrayList<Person>();
         for (int i = 0; i < 30; i++) {
             String fullName = generateUser.getOneRandomUsername();
-            Person person = new Person();
-
-            person.setId(i);
-            person.setName(fullName);
-            person.setEmail(fullName.replace(" ", "") + "@mail.ru");
-            person.setLink("@" + fullName.replace(" ", ""));
+            var person = Person.builder()
+                    .id(i)
+                    .name(fullName)
+                    .email(fullName.replace(" ", "") + "@mail.ru")
+                    .link("@" + fullName.replace(" ", ""))
+                    .build();
 
             people.add(person);
         }
